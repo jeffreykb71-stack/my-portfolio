@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interaction Hub</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 800px; margin: auto; padding: 20px; background: #f4f4f9; }
+        section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .msg { border-bottom: 1px dashed #ccc; padding: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to my Portfolio Hub</h1>
+
+    <section>
+        <h2>Public Guestbook</h2>
+        <form action="/post-public" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <textarea name="message" placeholder="Say hello to the world!" required></textarea>
+            <button type="submit">Post Publicly</button>
+        </form>
+        <div id="wall">
+            {% for m in public_msgs %}
+            <div class="msg"><strong>{{ m.name }}</strong>: {{ m.message }}</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section style="border-left: 5px solid #ffc107;">
+        <h2>Private Feedback (Only for Me)</h2>
+        <form action="/post-private" method="POST">
+            <textarea name="feedback" placeholder="Give me some private advice..." required></textarea>
+            <button type="submit" style="background: #333;">Send Private Feedback</button>
+        </form>
+    </section>
+</body>
+</html>
