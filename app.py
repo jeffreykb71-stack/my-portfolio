@@ -47,7 +47,7 @@ def post_private():
 
 # FIX: Added dynamic port binding for Render deployment
 if __name__ == "__main__":
-    # Render assigns a port via environment variable; local defaults to 5000
+    # FIX: Render assigns a port via environment variable; local defaults to 5000
     port = int(os.environ.get("PORT", 5000))
-    # host='0.0.0.0' is required for Render to see the application
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # host='0.0.0.0' is required for the cloud to see your app
+    app.run(host='0.0.0.0', port=port)
