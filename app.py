@@ -31,7 +31,6 @@ def index():
 
 @app.route('/add-idea', methods=['POST'])
 def add_idea():
-    # Captures both old and new field names to prevent 500 errors
     title = request.form.get('title') or request.form.get('name')
     desc = request.form.get('description') or request.form.get('message')
     
@@ -47,6 +46,7 @@ def add_idea():
             
     return redirect('/')
 
+# FIXED: Corrected the parenthesis closure here
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(
+    app.run(host='0.0.0.0', port=port)
