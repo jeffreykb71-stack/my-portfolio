@@ -2,38 +2,256 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interaction Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevHub | Portfolio Interaction</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', sans-serif; max-width: 800px; margin: auto; padding: 20px; background: #f4f4f9; }
-        section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-        .msg { border-bottom: 1px dashed #ccc; padding: 10px 0; }
+        /* --- Core Theme Colors & Reset --- */
+        :root {
+            /* These colors are loosely inspired by your diagram */
+            --bg-color: #F8FAFC;
+            --main-teal: #14B8A6; /* inspired by 'Frontend' green */
+            --navy-blue: #0F172A; /* inspired by 'Git/Hosting' blue */
+            --amber: #F59E0B;     /* inspired by 'Web Browser' yellow */
+            --accent-red: #EF4444; /* inspired by 'FTP' red */
+            --text-main: #334155;
+            --text-light: #64748B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* --- Header Styling --- */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--navy-blue);
+        }
+
+        header h1 {
+            color: var(--navy-blue);
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-weight: 400;
+            margin-top: 5px;
+        }
+
+        /* --- Global Form/Input Styling --- */
+        section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        /* Add a small underline to section headings */
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--main-teal);
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+            width: 100%;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* --- Public Guestbook Styling (Green Accent) --- */
+        #guestbook h2::after {
+            background-color: var(--main-teal);
+        }
+
+        #guestbook button {
+            background: var(--main-teal);
+            color: white;
+        }
+
+        #guestbook button:hover {
+            background: #0D9488; /* slightly darker teal */
+        }
+
+        /* --- Private Feedback Styling (Navy/Yellow Accent) --- */
+        #feedback {
+            border-left: 5px solid var(--amber); /* matches Browser color from diagram */
+        }
+
+        #feedback h2::after {
+            background-color: var(--amber);
+        }
+
+        #feedback button {
+            background: var(--navy-blue);
+            color: white;
+        }
+
+        #feedback button:hover {
+            background: #1E293B; /* slightly lighter navy */
+        }
+
+        /* --- Message Wall Styling --- */
+        #wall {
+            margin-top: 30px;
+            border-top: 2px solid #EDF2F7;
+            padding-top: 20px;
+        }
+
+        .wall-title {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .msg {
+            background-color: #F8FAFC;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .msg-sender {
+            font-weight: 600;
+            color: var(--main-teal);
+            margin-right: 10px;
+        }
+
+        .msg-content {
+            color: var(--text-main);
+        }
+
+        /* Special style for empty messages */
+        .no-msg {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            body { padding: 20px 10px; }
+            section { padding: 20px; }
+        }
+
     </style>
 </head>
 <body>
-    <h1>Welcome to my Portfolio Hub</h1>
+    <div class="container">
+        <header>
+            <h1>My Portfolio Hub</h1>
+            <p>Welcome to my modern web development submission.</p>
+        </header>
 
-    <section>
-        <h2>Public Guestbook</h2>
-        <form action="/post-public" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <textarea name="message" placeholder="Say hello to the world!" required></textarea>
-            <button type="submit">Post Publicly</button>
-        </form>
-        <div id="wall">
-            {% for m in public_msgs %}
-            <div class="msg"><strong>{{ m.name }}</strong>: {{ m.message }}</div>
-            {% endfor %}
-        </div>
-    </section>
+        <section id="guestbook">
+            <h2>Public Guestbook</h2>
+            <p style="color: var(--text-light); margin-bottom: 20px;">
+                Leave a public message. It's stored in MongoDB!
+            </p>
+            <form action="/post-public" method="POST">
+                <input type="text" name="name" placeholder="Your Professional Name" required>
+                <textarea name="message" placeholder="Say hello to the world (and my mentor)!" required></textarea>
+                <button type="submit">Post to Wall</button>
+            </form>
+            
+            <div id="wall">
+                <div class="wall-title">Recent Messages</div>
+                {% for m in public_msgs %}
+                <div class="msg">
+                    <span class="msg-sender">{{ m.name }}</span>
+                    <span class="msg-content">{{ m.message }}</span>
+                </div>
+                {% else %}
+                <div class="no-msg">The guestbook is currently empty.</div>
+                {% endfor %}
+            </div>
+        </section>
 
-    <section style="border-left: 5px solid #ffc107;">
-        <h2>Private Feedback (Only for Me)</h2>
-        <form action="/post-private" method="POST">
-            <textarea name="feedback" placeholder="Give me some private advice..." required></textarea>
-            <button type="submit" style="background: #333;">Send Private Feedback</button>
-        </form>
-    </section>
+        <section id="feedback">
+            <h2>Private Feedback</h2>
+            <p style="color: var(--text-light); margin-bottom: 20px;">
+                Only I can see this. A secure connection to the DB.
+            </p>
+            <form action="/post-private" method="POST">
+                <textarea name="feedback" placeholder="Provide some private advice, criticism, or guidance..." required></textarea>
+                <button type="submit">Submit Securely</button>
+            </form>
+        </section>
+    </div>
 </body>
 </html>
