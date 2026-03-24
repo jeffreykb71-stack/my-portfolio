@@ -4,32 +4,54 @@ from pymongo import MongoClient
 from datetime import datetime
 from dotenv import load_dotenv
 
+# Load variables from .env
 load_dotenv()
-app = Flask(__name__)
 
+app = Flask(__name__, template_folder='../templates')
+
+# MongoDB Connection
 MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
-db = client.PortfolioDB
+db = client.ProjectVault
 
 @app.route('/')
 def index():
     try:
-        public_msgs = list(db.shoutouts.find().sort("_id", -1))
+        # Fetching projects and sorting by newest first
+        projects = list(db.ideas.find().sort("_id", -1))
     except Exception as e:
-        print(f"Database error: {e}")
-        public_msgs = []
+        print(f"DB Error: {e}")
+        projects = []
     
-    # You can keep your 'About' details here or hardcode in HTML
+    # Your Professional Bio
     bio = {
         "name": "Salman",
-        "role": "Full Stack Developer",
-        "description": "Passionate about building robust backend systems and clean, aggressive front-end interfaces. I specialize in Python, Flask, and NoSQL databases."
+        "university": "Kristu Jayanti University",
+        "degree": "B.Sc. AI & Machine Learning (1st Year)",
+        "summary": "Forward-thinking AI/ML student with a core foundation in C programming and Web Technologies. I thrive in high-pressure AI competitions and am dedicated to engineering efficient, scalable solutions.",
+        "skills": ["Python / Flask", "C Programming", "HTML5 / CSS3", "MongoDB Atlas"]
     }
     
-    return render_template('index.html', public_msgs=public_msgs, bio=bio)
+    return render_template('index.html', projects=projects, bio=bio)
 
-# ... (keep your /post-public and /post-private routes the same) ...
+@app.route('/add-idea', methods=['POST'])
+def add_idea():
+    title = request.form.get('title')
+    category = request.form.get('category')
+    description = request.form.get('description')
+    
+    if title and description:
+        db.ideas.insert_one({
+            "title": title,
+            "category": category,
+            "description": description,
+            "date": datetime.now().strftime("%Y-%m-%d")
+        })
+    return redirect('/')
+
+# This is required for Vercel 
+def handler(event, context):
+    return app(event, context)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)

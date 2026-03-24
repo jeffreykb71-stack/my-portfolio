@@ -3,221 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salman | Dev Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <title>{{ bio.name }} | AI/ML Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Inter:wght@300;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0c;
-            --surface: #141417;
-            --accent: #00e5ff; /* Electric Blue */
-            --accent-dim: #005a63;
-            --text: #e0e0e0;
-            --danger: #ff3e3e;
+            --bg: #050506;
+            --surface: #0f1115;
+            --accent: #2563eb; 
+            --text: #f8fafc;
+            --muted: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* --- Cyber Transitions --- */
-        section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-            padding: 80px 20px;
-            max-width: 900px;
-            margin: auto;
-        }
+        .container { max-width: 1000px; margin: auto; padding: 0 20px; }
 
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Navigation --- */
         nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: rgba(10, 10, 12, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 20px;
-            border-bottom: 1px solid #333;
-            display: flex; justify-content: center; gap: 30px;
+            position: sticky; top: 0; background: rgba(5, 5, 6, 0.95);
+            padding: 20px 0; z-index: 100; border-bottom: 1px solid #1e293b;
         }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--text); text-decoration: none; font-family: 'Chakra Petch'; font-weight: bold; margin-left: 30px; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
 
-        nav a {
-            color: var(--text);
-            text-decoration: none;
-            font-family: 'Chakra Petch', sans-serif;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
+        .hero { padding: 100px 0; border-left: 4px solid var(--accent); padding-left: 40px; margin: 60px 0; }
+        .hero h1 { font-size: 4.5rem; font-weight: 800; line-height: 1; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; color: var(--accent); font-family: 'Chakra Petch'; text-transform: uppercase; }
 
-        nav a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-
-        /* --- Typography --- */
-        h1, h2 { 
-            font-family: 'Chakra Petch', sans-serif; 
-            text-transform: uppercase; 
-            letter-spacing: -1px;
-        }
-
-        .glitch-text {
-            font-size: 4rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 10px;
-            border-left: 8px solid var(--accent);
-            padding-left: 20px;
-        }
-
-        /* --- Cards & Forms --- */
-        .card {
+        .section-title { font-family: 'Chakra Petch'; font-size: 2rem; margin-bottom: 30px; border-bottom: 2px solid var(--accent); display: inline-block; }
+        
+        .about-card {
             background: var(--surface);
             padding: 40px;
+            border: 1px solid #1e293b;
             border-radius: 4px;
-            border: 1px solid #222;
-            position: relative;
-            box-shadow: 10px 10px 0px var(--accent-dim);
-            margin-top: 20px;
-        }
-
-        input, textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid #333;
-            color: white;
-            padding: 15px;
-            margin: 10px 0;
-            font-family: inherit;
-            outline: none;
-        }
-
-        input:focus, textarea:focus { border-color: var(--accent); }
-
-        button {
-            background: var(--accent);
-            color: black;
-            border: none;
-            padding: 15px 30px;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-        }
-
-        button:hover { background: white; transform: scale(1.02); }
-
-        /* --- Shoutout Wall --- */
-        .msg-box {
-            background: #000;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 3px solid var(--accent);
-        }
-
-        .msg-box strong { color: var(--accent); }
-
-        /* --- About Section --- */
-        .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.5fr 1fr;
             gap: 40px;
-            align-items: center;
+            box-shadow: 15px 15px 0px #1e293b;
         }
+
+        .skills-tag {
+            display: inline-block;
+            background: #1e293b;
+            color: var(--accent);
+            padding: 5px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: var(--surface); padding: 25px; border: 1px solid #1e293b; transition: 0.3s; }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+        form { background: #111; padding: 30px; border: 1px dashed #334155; margin-bottom: 40px; }
+        input, select, textarea {
+            width: 100%; background: #000; border: 1px solid #1e293b; color: white;
+            padding: 12px; margin-bottom: 15px; font-family: inherit;
+        }
+        button {
+            background: var(--accent); color: white; border: none; padding: 15px;
+            font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase;
+        }
+        button:hover { background: #1d4ed8; }
 
         @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .glitch-text { font-size: 2.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .about-card { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#guestbook">Wall</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <section id="home" class="visible">
-        <p style="color: var(--accent); font-weight: bold;">[ CONNECTION ESTABLISHED ]</p>
-        <h1 class="glitch-text">SALMAN.SYS</h1>
-        <h2>{{ bio.role }}</h2>
-    </section>
-
-    <section id="about">
-        <div class="about-grid">
+        <div class="container">
+            <div style="font-weight: 800; font-size: 1.5rem;">S / L</div>
             <div>
-                <h2>// About Me</h2>
-                <div class="card">
-                    <p>{{ bio.description }}</p>
-                    <br>
-                    <p style="color: var(--accent);">STRENGTHS:</p>
-                    <ul>
-                        <li>DATABASE ARCHITECTURE</li>
-                        <li>REST API DESIGN</li>
-                        <li>CYBER UI/UX</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="background: #111; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--accent);">
-                <p style="opacity: 0.5;">[ AVATAR_PLACEHOLDER ]</p>
+                <a href="#about">ABOUT</a>
+                <a href="#vault">VAULT</a>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <section id="guestbook">
-        <h2>// Public Wall</h2>
-        <div class="card">
-            <form action="/post-public" method="POST">
-                <input type="text" name="name" placeholder="IDENTIFY YOURSELF" required>
-                <textarea name="message" placeholder="LEAVE A LOG..." required></textarea>
-                <button type="submit">TRANSMIT DATA</button>
+    <div class="container">
+        <section class="hero">
+            <p>Connection Established // User: {{ bio.name }}</p>
+            <h1>{{ bio.name | upper }}.</h1>
+            <p>{{ bio.degree }}</p>
+        </section>
+
+        <section id="about" style="margin-bottom: 100px;">
+            <h2 class="section-title">PROFILE_SUMMARY</h2>
+            <div class="about-card">
+                <div>
+                    <p style="font-size: 1.1rem; margin-bottom: 20px;">{{ bio.summary }}</p>
+                    <p style="color: var(--muted);">Currently studying at <strong>{{ bio.university }}</strong>.</p>
+                </div>
+                <div>
+                    <h3 style="font-family: 'Chakra Petch'; margin-bottom: 15px;">TECHNICAL_STACK</h3>
+                    <div>
+                        {% for skill in bio.skills %}
+                        <span class="skills-tag">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vault" style="margin-bottom: 100px;">
+            <h2 class="section-title">PROJECT_VAULT</h2>
+            
+            <form action="/add-idea" method="POST">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <input type="text" name="title" placeholder="Project Name" required>
+                    <select name="category">
+                        <option value="AI / ML">AI / Machine Learning</option>
+                        <option value="Web Dev">Web Development</option>
+                        <option value="C Logic">C Programming</option>
+                    </select>
+                </div>
+                <textarea name="description" placeholder="Describe the technical scope..." required></textarea>
+                <button type="submit">Initialize Project Log</button>
             </form>
-            <div id="wall" style="margin-top: 30px;">
-                {% for m in public_msgs %}
-                <div class="msg-box">
-                    <strong>{{ m.name }}</strong>: {{ m.message }}
+
+            <div class="grid">
+                {% for p in projects %}
+                <div class="card">
+                    <span style="color: var(--accent); font-size: 0.7rem; font-weight: bold;">{{ p.category }}</span>
+                    <h3 style="margin: 10px 0;">{{ p.title }}</h3>
+                    <p style="color: var(--muted); font-size: 0.9rem;">{{ p.description }}</p>
+                    <small style="display: block; margin-top: 15px; color: #475569;">LOGGED: {{ p.date }}</small>
                 </div>
                 {% endfor %}
             </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2 style="color: var(--danger);">// Private Feed</h2>
-        <div class="card" style="box-shadow: 10px 10px 0px #600;">
-            <form action="/post-private" method="POST">
-                <textarea name="feedback" placeholder="SECURE FEEDBACK ONLY..." required></textarea>
-                <button type="submit" style="background: white;">SEND ENCRYPTED</button>
-            </form>
-        </div>
-    </section>
-
-    <script>
-        // Smooth reveal on scroll
-        const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-
-        sections.forEach(section => observer.observe(section));
-    </script>
+        </section>
+    </div>
 </body>
 </html>
